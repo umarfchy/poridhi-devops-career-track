@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+# inside
+WORKDIR /react
+
+COPY package*.json .
+
+# npm install - dependencies 
+RUN npm install
+
+# copy all the src code to the container
+COPY . .
+
+# npm build - build the code
+RUN npm run build
+
+# npm run preview - run the code
+# RUN npm run preview
+
+CMD ["npm", "run", "preview"]
+
+

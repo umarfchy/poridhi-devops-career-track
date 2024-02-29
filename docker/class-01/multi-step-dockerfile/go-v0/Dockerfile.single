@@ -1,0 +1,17 @@
+# Start from the official Go image to build the binary.
+FROM golang:latest
+
+# Set the working directory inside the container.
+WORKDIR /app
+
+# Copy the local code to the container's workspace.
+COPY . .
+
+# Build the Go app and output the binary to the ./out folder.
+RUN go build -o ./out/myapp .
+
+# Expose port 8080 to the outside world.
+EXPOSE 8080
+
+# Command to run the executable.
+CMD ["./out/myapp"]

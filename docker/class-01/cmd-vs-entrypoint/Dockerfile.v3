@@ -1,0 +1,8 @@
+FROM alpine:latest
+
+ENTRYPOINT  ["echo", "Hey"]
+
+# User is the default command
+CMD ["User"]
+
+

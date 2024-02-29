@@ -1,0 +1,24 @@
+# First stage: build the application.
+FROM golang:1.22.0-alpine3.19 as builder
+
+WORKDIR /app
+
+# Copy the local code to the container's workspace.
+COPY . .
+
+# Build the Go app and output the binary to the ./out folder.
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./out/myapp .
+
+# Second stage: create the runtime image.
+FROM alpine:3.19  
+
+WORKDIR /root/
+
+# Copy the binary from the builder stage.
+COPY --from=builder /app/out/myapp .
+
+# Expose port 8080 to the outside world.
+EXPOSE 8080
+
+# Command to run the executable.
+CMD ["./myapp"]
