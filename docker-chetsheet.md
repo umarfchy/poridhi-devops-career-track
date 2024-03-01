@@ -1,6 +1,6 @@
 ### Docker Chetsheet
 
-**1. Image Management**
+1. Image Management
     - **docker pull**: Pull a image from a registry
         - Example : `docker pull nginx:latest`
         - Explanation: Pulls the latest NGINX image from Docker Hub.
@@ -17,7 +17,7 @@
         - Example: `docker push my_repo:latest`
         - Explanation: Pushes the image "my_repo" with the "latest" tag to a registry
 
-**1. Container Management**
+1. Container Management
     - **docker run**: Run a command in a new container.
         - Example: `docker run -it --name my_container nginx`
         - Explanation: Runs the NGINX image in a new container named "my_container" and attaches to its terminal.
