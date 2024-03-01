@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  svc1:
+    image: nginx:latest
+    networks:
+      - my_network
+    container_name: svc1
+    command: /bin/bash -c "echo 'Connected to svc1' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+
+  svc2:
+    image: nginx:latest
+    networks:
+      - my_network
+    container_name: svc2
+    command: /bin/bash -c "echo 'Connected to svc2' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+
+networks:
+  my_network:
+    driver: bridge
