@@ -22,3 +22,13 @@ apt install curl -y
 curl SVC2_IP # NGINX listens to port 80 by default
 
 ```
+
+### Add entry to /etc/hosts
+
+```bash
+
+echo "SVC2_IP svc2" >> /etc/hosts
+
+curl svc2 # 
+
+```
