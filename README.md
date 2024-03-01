@@ -14,7 +14,7 @@
 - [ ] Terraform
 
 ### Docker Command Cheatsheet
-- [Docker Cheatsheet](https://github.com/docker-chetsheet.md#docker-chetsheet)
+- [Docker Cheatsheet](docker-chetsheet.md#docker-chetsheet)
 
 ### Reference
 - [Install Docker](https://docs.docker.com/desktop/install/windows-install/)
