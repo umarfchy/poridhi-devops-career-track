@@ -2,8 +2,8 @@
 
 ```bash
 
-docker run --name svc1 nginx
-docker run --name svc2 nginx
+docker run --name svc1 --hostname svc1 nginx
+docker run --name svc2 --hostname svc2 nginx
 
 docker inspect svc1 # Get IP
 docker inspect svc2 # Get IP
@@ -16,6 +16,7 @@ docker inspect svc2 # Get IP
 
 docker exec -it svc1 bash
 
+# inside container
 apt update -y
 apt install curl -y
 

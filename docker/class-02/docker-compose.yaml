@@ -6,6 +6,7 @@ services:
     networks:
       - my_network
     container_name: svc1
+    hostname: svc1
     command: /bin/bash -c "echo 'Connected to svc1' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
 
   svc2:
@@ -13,6 +14,7 @@ services:
     networks:
       - my_network
     container_name: svc2
+    hostname: svc2
     command: /bin/bash -c "echo 'Connected to svc2' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
 
 networks:
