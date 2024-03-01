@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  master:
+    build:
+      context: ./
+      dockerfile: Dockerfile.master
+    container_name: master
+    restart: unless-stopped
+    tty: true
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - database-network
+
+  slave:
+    build:
+      context: ./
+      dockerfile: Dockerfile.slave
+    container_name: slave
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - master
+    networks:
+      - database-network
+
+networks:
+  database-network:
+    driver: bridge

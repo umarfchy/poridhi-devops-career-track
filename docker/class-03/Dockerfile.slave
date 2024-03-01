@@ -1,0 +1,5 @@
+
+FROM mysql:8.0-debian
+
+# Copy the custom configuration file into the container
+COPY ./slave.cnf /etc/mysql/conf.d/
