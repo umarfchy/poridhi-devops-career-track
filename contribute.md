@@ -3,7 +3,6 @@ Generally speaking, you need to go through the following steps to become a contr
 
 - Fork a repo
 - Clone the repo
-- Define a pre-commit hook
 - Create a branch
 - Read the code and documentation style
 - Develop
