@@ -8,7 +8,6 @@
 CREATE USER 'repl'@'%' IDENTIFIED BY 'password';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
 FLUSH PRIVILEGES;
-FLUSH TABLES WITH READ LOCK;
 ```
 
 #### Getting the master status
@@ -37,7 +36,7 @@ CHANGE MASTER TO MASTER_HOST='[master_ip]', MASTER_USER='repl', MASTER_PASSWORD=
 In this example, the host name of master is `master` (name of the docker container) which will be automatically resolved to master's IP, the log file is `binlog.000002` and the log position is `1151`.
 
 ```bash
-CHANGE MASTER TO MASTER_HOST='master', MASTER_USER='repl', MASTER_PASSWORD='password', MASTER_LOG_FILE='binlog.000002', MASTER_LOG_POS=1151;
+CHANGE MASTER TO MASTER_HOST='master', MASTER_USER='repl', MASTER_PASSWORD='password', MASTER_LOG_FILE='binlog.000002', MASTER_LOG_POS=827;
 START SLAVE;
 ```
 
