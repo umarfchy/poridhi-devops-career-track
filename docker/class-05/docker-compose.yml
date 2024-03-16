@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  nginx-server:
+    image: nginx:stable-alpine
+    container_name: nginx_server
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - proxy-network
+
+  server-1:
+    container_name: server-1
+    build: ./server/.
+    hostname: "host1"
+    networks:
+      - proxy-network
+
+  server-2:
+    container_name: server-2
+    build: ./server/.
+    hostname: "host2"
+    networks:
+      - proxy-network
+
+  server-3:
+    container_name: server-3
+    build: ./server/.
+    hostname: "host3"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    driver: bridge
