@@ -1,4 +1,4 @@
-export const Form = ({ setUserInput, handleSubmit }) => {
+export const Form = ({ userInput, setUserInput, handleSubmit }) => {
   return (
     <form
       className="flex flex-col items-center"
@@ -11,6 +11,7 @@ export const Form = ({ setUserInput, handleSubmit }) => {
       <input
         type="text"
         placeholder="Type here..."
+        value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         className="w-96 p-2 my-4 rounded-md border-2 border-gray-300"
         required

@@ -39,7 +39,11 @@ const App = () => {
   return (
     <main className="grid place-items-center my-10 grid-cols-1 md:grid-cols-2">
       <section>
-        <Form setUserInput={setUserInput} handleSubmit={handleSubmit} />
+        <Form
+          userInput={userInput}
+          setUserInput={setUserInput}
+          handleSubmit={handleSubmit}
+        />
       </section>
       <section>
         <button
