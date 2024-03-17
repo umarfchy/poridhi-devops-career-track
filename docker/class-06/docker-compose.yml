@@ -1,0 +1,130 @@
+version: '3'
+
+services:
+  client-service:
+    container_name: "client"
+    build:
+      context: ./client/.
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    # ports:
+    #   - ${CLIENT_APP_EXTERNAL_PORT}:${CLIENT_APP_INTERNAL_PORT}
+    networks:
+      - mynetwork
+    depends_on:
+      - api-service-1
+      - api-service-2
+
+  api-service-1:
+    container_name: "api-1"
+    build:
+      context: ./api/.
+      dockerfile: Dockerfile
+    environment:
+      - SERVICE_NAME=api-service-1
+      - PORT=${API_SERVER_INTERNAL_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_CHANNEL=${REDIS_CHANNEL}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_TABLE=${MYSQL_TABLE}
+    # ports:
+    #   - ${API_SERVER_EXTERNAL_PORT}:${API_SERVER_INTERNAL_PORT}
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+      - redis
+      - worker-service
+
+  api-service-2:
+    container_name: "api-2"
+    build:
+      context: ./api/.
+      dockerfile: Dockerfile
+    environment:
+      - SERVICE_NAME=api-service-2
+      - PORT=${API_SERVER_INTERNAL_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_CHANNEL=${REDIS_CHANNEL}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_TABLE=${MYSQL_TABLE}
+    # ports:
+    #   - ${API_SERVER_EXTERNAL_PORT}:${API_SERVER_INTERNAL_PORT}
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+      - redis
+      - worker-service
+
+  worker-service:
+    container_name: "worker"
+    build: ./worker/.
+    environment:
+      - PORT=5002
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_CHANNEL=${REDIS_CHANNEL}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_TABLE=${MYSQL_TABLE}
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+      - redis
+
+  db:
+    container_name: "db"
+    build: ./db/.
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    # ports:
+    #   - '3306:3306'
+    networks:
+      - mynetwork
+
+  redis:
+    container_name: "redis"
+    image: "redis:latest"
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass mypassword
+    # ports:
+    #   - '6379:6379'
+    networks:
+      - mynetwork
+
+  nginx:
+    container_name: nginx_server
+    build:
+      context: ./nginx/.
+      dockerfile: Dockerfile
+    ports:
+      - ${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}
+    environment:
+      - CLIENT_APP_INTERNAL_PORT=${CLIENT_APP_INTERNAL_PORT}
+      - API_SERVER_INTERNAL_PORT=${API_SERVER_INTERNAL_PORT}
+    networks:
+      - mynetwork
+    depends_on:
+      - client-service
+      - api-service-1
+      - api-service-2
+
+networks:
+  mynetwork:
+    driver: bridge

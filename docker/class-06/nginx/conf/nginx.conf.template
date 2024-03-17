@@ -1,0 +1,29 @@
+events {
+    # empty placeholder
+}
+
+
+http {
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://frontend;
+        }
+
+        location /api/ {
+            rewrite ^/api/(.*)$ /$1 break;
+            proxy_pass http://backend;
+        }
+    }
+
+    upstream frontend {
+        server client-service:${CLIENT_APP_INTERNAL_PORT};
+    }
+
+    upstream backend {
+        server api-service-1:${API_SERVER_INTERNAL_PORT};
+        server api-service-2:${API_SERVER_INTERNAL_PORT};
+    }
+}
